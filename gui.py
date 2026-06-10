@@ -37,3 +37,24 @@ def runGUI():
 
     inventoryView.pack(fill="both", expand=True, padx=10, pady=10)
     root.mainloop()
+
+def loadInventory(inventoryView):
+    connect = get_connection()
+    cursor = connect.cursor()
+
+    cursor.execute("""
+    SELECT * FROM cards
+                   """)
+    results = cursor.fetchall()
+
+    for row in inventoryView.get_children():
+        inventoryView.delete(row)
+
+    for cards in results:
+        inventoryView.insert("", tk.END, values=(cards[1], cards[2], cards[3], cards[4]))
+    
+    connect.close()
+
+
+    inventoryView.pack(fill="both", expand=True, padx=10, pady=10)
+    root.mainloop()
