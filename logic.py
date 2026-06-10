@@ -1,18 +1,13 @@
 from database import get_connection
 
-def addCard():
-    cardName = input("Enter card name: ")
-    cardNumber = input("Enter card number: ")
-    cardQ = input("Enter quantity of card(s): ")
-    loc = input("Enter location of card(s): ")
-    
+def addCard(cardName, cardNumber, cardQ, cardL):  
     connect = get_connection()
     cursor = connect.cursor()
     
     cursor.execute("""
         INSERT INTO cards (cardN, cardID, quantity, location)
         VALUES (?, ?, ?, ?)
-                   """, (cardName, cardNumber, cardQ, loc))
+                   """, (cardName, cardNumber, cardQ, cardL))
     
     connect.commit()
     connect.close()
@@ -39,7 +34,7 @@ def searchCard():
         
     connect.close()
 
-def deleteCard():
+def deleteCard(cardName, cardNumber):
     showAll()
     name = input("Enter name of card: ")
     number = input("Enter the number of the card: ")
