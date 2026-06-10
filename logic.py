@@ -11,7 +11,6 @@ def addCard(cardName, cardNumber, cardQ, cardL):
     
     connect.commit()
     connect.close()
-    print("Card added successfully.")
     
 
 def searchCard():
@@ -35,24 +34,14 @@ def searchCard():
     connect.close()
 
 def deleteCard(cardName, cardNumber):
-    showAll()
-    name = input("Enter name of card: ")
-    number = input("Enter the number of the card: ")
-    
     connect = get_connection()
     cursor = connect.cursor()
     
     cursor.execute("""
         DELETE FROM cards WHERE cardN = ? AND cardID = ?
-                   """, (name, number))
+                   """, (cardName, cardNumber))
 
     connect.commit()
-    
-    if cursor.rowcount > 0:
-        print("Card deleted successfuly")
-    else:
-        print("No matching card found.")
-        
     connect.close()
     
 def showAll():
