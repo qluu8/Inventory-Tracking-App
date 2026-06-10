@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from database import get_connection
-from logic import addCard
+from logic import addCard, deleteCard
 
 def runGUI():
     root = tk.Tk()
@@ -41,7 +41,7 @@ def runGUI():
     loadInventory(inventoryView)
     
     addButton.config(command=lambda: handleAddButton(root, inventoryView))
-    
+    deleteButton.config(command=lambda: handleDeleteButton(root, inventoryView))
     root.mainloop()
 
 def loadInventory(inventoryView):
@@ -99,4 +99,35 @@ def handleAddButton(root, inventoryView):
     addQuantity.grid(row=2, column=1, padx=5, pady=5)
     addLocationL.grid(row=3, column=0, padx=5, pady=5)
     addLocation.grid(row=3, column=1, padx=5, pady=5)
+
+
+def handleDeleteButton(root, inventoryView):
+    def confirmDelete():
+        cardName = delName.get()
+        cardNumber = delNumber.get()
+        
+        deleteCard(cardName, cardNumber)
+        loadInventory(inventoryView)
+        deleteWindow.destroy()
+
+    deleteWindow = tk.Toplevel(root)
+
+    deleteWindow.geometry("300x175")
+    deleteWindow.title("Deleting a Card")
+    
+    nameLable = tk.Label(deleteWindow, text="Name of Card", font=('Times', 10))
+    delName = tk.Entry(deleteWindow)
+    
+    numberLable = tk.Label(deleteWindow, text="Number of Card", font=('Times', 10))
+    delNumber = tk.Entry(deleteWindow)
+    
+    confirmButton = tk.Button(deleteWindow, text="Delete", command=confirmDelete)
+    confirmButton.grid(row=2, column=0, columnspan=2, pady=10)
+    
+    nameLable.grid(row=0, column=0, padx=5, pady=5)
+    delName.grid(row=0, column=1, padx=5, pady=5)
+    numberLable.grid(row=1, column=0, padx=5, pady=5)
+    delNumber.grid(row=1, column=1, padx=5, pady=5)
+    
+    
     
