@@ -13,18 +13,18 @@ def addCard(cardName, cardNumber, cardQ, cardL):
     connect.close()
     
 
-def searchCard(cardName):
+def searchCard(cardName, cardNumber):
     connect = get_connection()
     cursor = connect.cursor()
     
     cursor.execute("""
         SELECT * FROM cards WHERE cardN LIKE ? AND cardID LIKE ?
-                   """, ("%" + cardName + "%",))
+                   """, ("%" + cardName + "%", "%" + cardNumber + "%"))
     
     results = cursor.fetchall()
-    
-        
     connect.close()
+    
+    return results
 
 def deleteCard(cardName, cardNumber):
     connect = get_connection()
@@ -37,20 +37,3 @@ def deleteCard(cardName, cardNumber):
     connect.commit()
     connect.close()
     
-def showAll():
-    connect = get_connection()
-    cursor = connect.cursor()
-    
-    cursor.execute("""
-        SELECT * FROM cards
-                   """)
-    
-    results = cursor.fetchall()
-    
-    if results:
-        for card in results:
-            print(card)
-    else:
-        print("No cards found.")
-        
-    connect.close()
