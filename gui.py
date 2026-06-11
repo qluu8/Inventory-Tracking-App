@@ -21,6 +21,9 @@ def runGUI():
     searchButton = tk.Button(button_frame, text="Search")
     searchButton.pack(side="left", padx="5", pady="5")
 
+    reloadButton = tk.Button(button_frame, text="Refresh")
+    reloadButton.pack(side="left", padx="5", pady="5")
+
     viewFrame = tk.Frame(root)
     viewFrame.pack(side="top", fill="both", expand=True)
 
@@ -43,6 +46,7 @@ def runGUI():
     addButton.config(command=lambda: handleAddButton(root, inventoryView))
     deleteButton.config(command=lambda: handleDeleteButton(root, inventoryView))
     searchButton.config(command=lambda: handleSearchButton(root, inventoryView))
+    reloadButton.config(command=lambda: loadInventory(inventoryView))
     root.mainloop()
 
 def loadInventory(inventoryView):
@@ -145,5 +149,24 @@ def handleSearchButton(root, inventoryView):
     searchName.grid(row=0, column=1, padx=5, pady=5)
     numberLabel.grid(row=1, column=0, padx=5, pady=5)
     searchNumber.grid(row=1, column=1, padx=5, pady=5)
+    
+    def searchConfirm():
+        cardName = searchName.get().strip()
+        cardNumber = searchNumber.get().strip()
+        
+        matched = searchCard(cardName, cardNumber) or []
+        
+        for item in inventoryView.get_children():
+            inventoryView.delete(item)
+        
+        for card in matched:
+            inventoryView.insert("", tk.END, values=(card[1], card[2], card[3], card[4]))
+        
+        searchWindow.destroy()
+    
+    searchButton = tk.Button(searchWindow, text="Search", command=searchConfirm)
+    searchButton.grid(row=2, column=0, columnspan=2, pady=10)
+    
+    
 
 
