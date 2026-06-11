@@ -13,23 +13,16 @@ def addCard(cardName, cardNumber, cardQ, cardL):
     connect.close()
     
 
-def searchCard():
-    choice = input("Enter name of card: ")
-    
+def searchCard(cardName):
     connect = get_connection()
     cursor = connect.cursor()
     
     cursor.execute("""
-        SELECT * FROM cards WHERE cardN LIKE ?
-                   """, ("%" + choice + "%",))
+        SELECT * FROM cards WHERE cardN LIKE ? AND cardID LIKE ?
+                   """, ("%" + cardName + "%",))
     
     results = cursor.fetchall()
     
-    if results:
-        for card in results:
-            print(card)
-    else:
-        print("No card with that name found.")
         
     connect.close()
 
