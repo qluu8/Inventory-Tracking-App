@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from database import get_connection
-from logic import addCard, deleteCard
+from logic import addCard, deleteCard, searchCard
 
 def runGUI():
     root = tk.Tk()
@@ -42,6 +42,7 @@ def runGUI():
     
     addButton.config(command=lambda: handleAddButton(root, inventoryView))
     deleteButton.config(command=lambda: handleDeleteButton(root, inventoryView))
+    searchButton.config(command=lambda: handleSearchButton(root, inventoryView))
     root.mainloop()
 
 def loadInventory(inventoryView):
@@ -115,19 +116,34 @@ def handleDeleteButton(root, inventoryView):
     deleteWindow.geometry("300x175")
     deleteWindow.title("Deleting a Card")
     
-    nameLable = tk.Label(deleteWindow, text="Name of Card", font=('Times', 10))
+    nameLabel = tk.Label(deleteWindow, text="Name of Card", font=('Times', 10))
     delName = tk.Entry(deleteWindow)
     
-    numberLable = tk.Label(deleteWindow, text="Number of Card", font=('Times', 10))
+    numberLabel = tk.Label(deleteWindow, text="Number of Card", font=('Times', 10))
     delNumber = tk.Entry(deleteWindow)
     
     confirmButton = tk.Button(deleteWindow, text="Delete", command=confirmDelete)
     confirmButton.grid(row=2, column=0, columnspan=2, pady=10)
     
-    nameLable.grid(row=0, column=0, padx=5, pady=5)
+    nameLabel.grid(row=0, column=0, padx=5, pady=5)
     delName.grid(row=0, column=1, padx=5, pady=5)
-    numberLable.grid(row=1, column=0, padx=5, pady=5)
+    numberLabel.grid(row=1, column=0, padx=5, pady=5)
     delNumber.grid(row=1, column=1, padx=5, pady=5)
     
-    
-    
+
+def handleSearchButton(root, inventoryView):
+    searchWindow = tk.Toplevel(root)
+    searchWindow.geometry("200x180")
+    searchWindow.title("Searching for a Card")
+
+    nameLabel = tk.Label(searchWindow, text="Name of Card", font=('Times', 10))
+    searchName = tk.Entry(searchWindow)
+    numberLabel = tk.Label(searchWindow, text="Number of Card", font=('Times', 10))
+    searchNumber = tk.Entry(searchWindow)
+
+    nameLabel.grid(row=0, column=0, padx=5, pady=5)
+    searchName.grid(row=0, column=1, padx=5, pady=5)
+    numberLabel.grid(row=1, column=0, padx=5, pady=5)
+    searchNumber.grid(row=1, column=1, padx=5, pady=5)
+
+
